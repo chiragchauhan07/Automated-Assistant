@@ -143,21 +143,11 @@ ollama pull mistral
 
 ```bash
 python app.py
-```
+
 
 ---
 
-## 📸 Screenshots
-
-Add screenshots of:
-
-* Dashboard UI
-* Terminal logs
-* Assistant running
-
----
-
-## 🧩 Core Functionalities
+##Core Functionalities
 
 * `speak(text)` → Converts text to speech
 * `listen()` → Captures voice input
@@ -169,7 +159,7 @@ Add screenshots of:
 
 ---
 
-## ⚡ Challenges & Learnings
+##  Challenges & Learnings
 
 * Integrating voice input with real-time processing
 * Managing local LLM setup and response handling
@@ -178,7 +168,7 @@ Add screenshots of:
 
 ---
 
-## 🔮 Future Improvements
+##  Future Improvements
 
 * Advanced NLP-based intent classification
 * Context memory for better conversations
@@ -186,21 +176,12 @@ Add screenshots of:
 * GUI-based assistant interface
 * API integrations
 
----
-
-## 🎯 Why This Project Stands Out
-
-* Combines **AI + Automation + Voice Interaction**
-* Uses **local LLM (no API dependency)**
-* Supports **code generation + real task execution**
-* Demonstrates **end-to-end system design**
 
 ---
 
-## 📬 Contact
+##  Contact
 
-* LinkedIn: Add your link
-* GitHub: Add your profile
+* LinkedIn: www.linkedin.com/in/chirag-chauhan-344783306
 
 ---
 
