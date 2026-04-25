@@ -113,21 +113,6 @@ The assistant follows a modular workflow:
 
 ---
 
-## 📂 Project Structure
-
-```bash
-AI-Automated-Assistant/
-│
-├── main.py              # Core assistant logic
-├── app.py               # Flask server & dashboard
-├── requirements.txt     # Dependencies
-├── README.md
-├── /frontend            # UI files
-├── /images              # Screenshots
-```
-
----
-
 ## ⚙️ Setup & Installation
 
 ### 1. Clone the Repository
