@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <span class="terminal-title">Automated Assistant Terminal</span>
+        </div>
+        <div class="terminal-body" id="terminal-output">
+            <p>Welcome to Automated Assistant interface.</p>
+            <p>System ready.</p>
+        </div>
+        <div class="terminal-footer">
+            <button id="launch-btn" class="launch-btn">Launch Assistant</button>
+            <button id="stop-btn" class="stop-btn" disabled>Stop Assistant</button>
+        </div>
+    </div>
+
+    <script>
+        const launchBtn = document.getElementById('launch-btn');
+        const stopBtn = document.getElementById('stop-btn');
+        const terminalOutput = document.getElementById('terminal-output');
+        let evtSource = null;
+
+        launchBtn.addEventListener('click', () => {
+            const p = document.createElement('p');
+            p.textContent = '> Starting Automated Assistant...';
+            p.style.color = '#ccc';
+            terminalOutput.appendChild(p);
+            
+            fetch('/start', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'started' || data.status === 'already running') {
+                        launchBtn.disabled = true;
+                        launchBtn.textContent = 'Assistant Running...';
+                        launchBtn.classList.add('disabled');
+                        
+                        stopBtn.style.display = 'inline-block';
+                        stopBtn.disabled = false;
+                        stopBtn.classList.remove('disabled');
+                        
+                        if(!evtSource) {
+                            evtSource = new EventSource('/stream');
+                            evtSource.onmessage = function(event) {
+                                const newP = document.createElement('p');
+                                newP.textContent = event.data;
+                                
+                                // Basic styling for terminal output based on who is speaking
+                                if (event.data.includes('Automated Assistant:')) {
+                                    newP.style.color = '#00ff00'; // Green for assistant
+                                } else if (event.data.includes('You:')) {
+                                    newP.style.color = '#fff';    // White for user
+                                } else if (event.data.includes('Listening...')) {
+                                    newP.style.color = '#888';    // Grey for listening status
+                                } else {
+                                    newP.style.color = '#ccc';
+                                }
+                                
+                                terminalOutput.appendChild(newP);
+                                // Keep scroll at bottom
+                                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                            };
+                        }
+                    }
+                })
+                .catch(error => {
+                    const errP = document.createElement('p');
+                    errP.textContent = '> Error: Cannot connect to backend server. Make sure app.py is running.';
+                    errP.style.color = '#ff5f56';
+                    terminalOutput.appendChild(errP);
+                });
+        });
+
+        stopBtn.addEventListener('click', () => {
+            fetch('/stop', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.status === 'stopped') {
+                        const p = document.createElement('p');
+                        p.textContent = '> Assistant stopped.';
+                        p.style.color = '#ff5f56';
+                        terminalOutput.appendChild(p);
+                        
+                        launchBtn.disabled = false;
+                        launchBtn.textContent = 'Launch Assistant';
+                        launchBtn.classList.remove('disabled');
+                        
+                        stopBtn.style.display = 'none';
+                        stopBtn.disabled = true;
+                        stopBtn.classList.add('disabled');
+                        
+                        terminalOutput.scrollTop = terminalOutput.scrollHeight;
+                    }
+                });
+        });
+    </script>
+</body>
+
+</html>
