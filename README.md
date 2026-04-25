@@ -143,7 +143,7 @@ ollama pull mistral
 
 ```bash
 python app.py
-
+```
 
 ---
 
@@ -159,7 +159,7 @@ python app.py
 
 ---
 
-##  Challenges & Learnings
+Challenges & Learnings
 
 * Integrating voice input with real-time processing
 * Managing local LLM setup and response handling
